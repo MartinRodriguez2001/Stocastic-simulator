@@ -28,6 +28,10 @@ export interface NodeState {
         inputs: string[]
         outputs: string[]
     }
+    connections?: {
+        incoming: string[]
+        outgoing: string[]
+    }
 }
 
 interface NodeStatesSlice {
@@ -82,6 +86,18 @@ const nodeStateSlice = createSlice({
         node.io.inputs = action.payload.inputs;
         node.io.outputs = action.payload.outputs;
         },
+        updateConnections(
+            state,
+            action: PayloadAction<{ id: string; incoming: string[]; outgoing: string[] }>
+            ) {
+            const node = state.byId[action.payload.id];
+            if (!node) return;
+            node.connections = {
+                incoming: action.payload.incoming,
+                outgoing: action.payload.outgoing,
+            };
+}
+
     }
 })
 
@@ -94,7 +110,8 @@ export const {
     removeInput,
     addOutput,
     removeOutput,
-    updateNodeIOInNodeSlice
+    updateNodeIOInNodeSlice,
+    updateConnections
 } = nodeStateSlice.actions
 
 export default nodeStateSlice.reducer

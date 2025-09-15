@@ -12,8 +12,7 @@ export interface GeneratorConfig {
     onDemand?: boolean
     generation?: Distribution
     serviceTime?: Distribution
-    delayOnDemand?: number
     limit?: number
-    attributesProbabilities?: Record<string, Record<string, number>>
+    attributesProbabilities?: Record<string, number>
 }
 

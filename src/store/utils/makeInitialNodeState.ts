@@ -21,7 +21,6 @@ export function makeInitialNodeState(
           generation: initialData.intervalParams ?? { value: 1 },
           limit: initialData.limit ?? undefined,
           onDemand: initialData.onDemand ?? false,
-          delayOnDemand: initialData.delayOnDemand ?? 0,
           attributesProbabilities: initialData.attributes ?? {},
         },
       }
@@ -34,12 +33,13 @@ export function makeInitialNodeState(
           name: initialData.name ?? "Cola",
           elementTypeId: initialData.elementTypeId ?? undefined,
           strategy: initialData.strategy ?? 'FIFO',
-          priorityAttribute: initialData.priorityAttribute ?? null,
+          priorityAttribute: initialData.priorityAttribute ?? undefined,
           priorityOrder: initialData.priorityOrder ?? 'asc',
-          capacity: initialData.capacity ?? Infinity,
+          capacity: initialData.capacity ?? undefined, // Infinity o undefined = sin límite
         },
       }
       break
+
 
     case 'selector':
       config = {

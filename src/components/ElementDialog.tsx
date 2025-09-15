@@ -29,7 +29,7 @@ export function ElementDialog({ open, onClose, elementsManager }: ElementDialogP
   ])
 
   const addAttribute = () => {
-    setAttributes(prev => [...prev, { name: "", type: "categorico" }])
+    setAttributes(prev => [...prev, { name: "", type: ""  as any}])
   }
 
   const updateAttribute = (index: number, field: keyof ElementAttributes, value: any) => {
@@ -86,7 +86,7 @@ export function ElementDialog({ open, onClose, elementsManager }: ElementDialogP
     
     // Limpiar formulario
     setName("")
-    setAttributes([{ name: "id", type: "categorico" }])
+    setAttributes([])
     onClose()
   }
 

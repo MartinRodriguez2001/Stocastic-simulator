@@ -3,8 +3,10 @@ import ReactFlow, { MiniMap, Controls, Background} from "reactflow";
 import "reactflow/dist/style.css";
 
 import { useWorkSpace } from "@/hooks/useWorkSpace";
-import { WorkSpaceMenu } from "../components/WorkSpaceMenu";
 import { useElements } from "@/hooks/useElements";
+import { useSyncConnections } from "@/hooks/useSyncConnections";
+
+import { WorkSpaceMenu } from "../components/WorkSpaceMenu";
 import { NodeConfigSidebar } from "@/components/RightSideBar";
 import { GeneratorNode } from "@/components/Nodes/GeneratorNode";
 import { QueueNode } from "@/components/Nodes/QueueNode";
@@ -12,6 +14,7 @@ import { SelectorNode } from "@/components/Nodes/SelectorNode";
 import { TransporterNode } from "@/components/Nodes/TransporterNode";
 import { TransformerNode } from "@/components/Nodes/TransformerNode";
 import { OutputNode } from "@/components/Nodes/OutPutNode";
+import { useEffect } from "react";
 
  const nodeTypes = {
     generator: GeneratorNode,
@@ -39,6 +42,14 @@ export default function WorkSpace() {
   } = useWorkSpace();
 
   const elementsManager = useElements();
+
+  const {sync} = useSyncConnections()
+
+  useEffect(() => {
+    if (nodes.length > 0) {
+      sync(nodes);
+    }
+  }, [nodes, edges, sync]);
 
   return (
     <div style={{ flex: 1, height: "100%", position: "relative" }}>
