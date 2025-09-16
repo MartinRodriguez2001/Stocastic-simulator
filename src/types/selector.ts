@@ -1,6 +1,7 @@
+// types/selector.ts
 export interface SelectorConfig {
-    strategy: "PRIORITY" | "ROUND_ROBIN"
-    priorityInputs?: string[]
-    elementTypeId: string | undefined
-    name: string
+  elementTypeId: string | undefined;
+  strategy: "INPUT_PRIORITY" | "ORDER";
+  priorityInputs: string[];
+  name: string;
 }

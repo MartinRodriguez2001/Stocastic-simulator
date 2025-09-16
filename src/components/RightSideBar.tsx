@@ -4,14 +4,10 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetDescription,
-  SheetFooter,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { Node } from "reactflow";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 
 import type { useElements } from "@/hooks/useElements";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -30,6 +26,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateNode } from "@/store/workspaceSlice";
+import { SelectorConfig } from "./NodeConfigs/SelectorConfig";
+import { TransporterConfig } from "./NodeConfigs/Transporter";
 
 interface NodeConfigSidebarProps {
   node: Node | null;
@@ -54,19 +52,12 @@ export function NodeConfigSidebar({
   const { config } = nodeState;
   const data = config.data as any;
 
-  const handleSave = () => {
-    toast.success(`Nodo "${data.name ?? node.id}" actualizado`);
-    onClose();
-  };
 
   return (
     <Sheet open={!!node} onOpenChange={(open) => !open && onClose()}>
       <SheetContent side="right" className="w-[300px] sm:w-[400px]">
         <SheetHeader>
           <SheetTitle>Configurar Nodo</SheetTitle>
-          <SheetDescription>
-            Edita las propiedades de este nodo.
-          </SheetDescription>
         </SheetHeader>
 
         <div className="grid flex-1 auto-rows-min gap-6 px-4 py-4 max-h-[calc(100vh-200px)] overflow-y-auto">
@@ -148,15 +139,16 @@ export function NodeConfigSidebar({
             {node.type === "queue" && (
               <QueueConfig nodeId={node.id} />
             )}
+
+            {node.type === "selector" && (
+              <SelectorConfig nodeId={node.id} />
+            )}
+
+            {node.type === "transporter" && (
+              <TransporterConfig nodeId={node.id} />
+            )}
           </div>
         </div>
-
-        <SheetFooter className="mt-6 flex gap-2">
-          <Button variant="outline" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button onClick={handleSave}>Guardar</Button>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

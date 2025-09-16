@@ -33,12 +33,14 @@ export function makeInitialNodeState(
           name: initialData.name ?? "Cola",
           elementTypeId: initialData.elementTypeId ?? undefined,
           strategy: initialData.strategy ?? 'FIFO',
-          priorityAttribute: initialData.priorityAttribute ?? undefined,
-          priorityOrder: initialData.priorityOrder ?? 'asc',
+          priorityAttributes: Array.isArray(initialData.priorityAttributes)
+            ? initialData.priorityAttributes
+            : [],
           capacity: initialData.capacity ?? undefined, // Infinity o undefined = sin límite
         },
       }
       break
+
 
 
     case 'selector':
@@ -47,11 +49,14 @@ export function makeInitialNodeState(
         data: {
           name: initialData.name ?? "Selector",
           elementTypeId: initialData.elementTypeId ?? undefined,
-          strategy: initialData.strategy ?? 'PRIOTIRY',
-          priorityInputs: initialData.priorityInputs ?? [],
+          strategy: initialData.strategy ?? 'INPUT_PRIORITY', 
+          priorityInputs: Array.isArray(initialData.priorityInputs)
+            ? initialData.priorityInputs
+            : [], 
         },
       }
       break
+
 
     case 'transporter':
       config = {
@@ -59,11 +64,13 @@ export function makeInitialNodeState(
         data: {
           name: initialData.name ?? "Transportador",
           elementTypeId: initialData.elementTypeId ?? undefined,
-          mode: initialData.mode ?? 'continuous',
-          travelTime: initialData.travelTime ?? { value: 1 },
-          minInterval: initialData.minInterval ?? 0,
-          capacity: initialData.capacity ?? 1,
-          maxWait: initialData.maxWait ?? 0,
+          mode: (initialData.mode === 'MOBILE' || initialData.mode === 'CONTINUOUS')
+            ? initialData.mode
+            : 'CONTINUOUS', 
+          travelTime: initialData.travelTime ?? { kind: 'fijo', params: { value: 1 } },
+          minInterval: initialData.minInterval ?? 0, 
+          capacity: initialData.capacity ?? 1,      
+          maxWait: initialData.maxWait ?? 0,         
         },
       }
       break

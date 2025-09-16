@@ -33,7 +33,6 @@ export function GeneratorConfig({ nodeId }: GeneratorConfigProps) {
   const element = config.elementTypeId ? elements[config.elementTypeId] : null;
   const probabilities = config.attributesProbabilities ?? {};
 
-  // --- Handlers ---
   const handleDistributionChange = (kind: string) => {
     let params: any;
     switch (kind) {
