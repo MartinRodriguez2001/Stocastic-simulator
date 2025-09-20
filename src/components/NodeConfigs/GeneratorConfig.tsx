@@ -69,7 +69,6 @@ export function GeneratorConfig({ nodeId }: GeneratorConfigProps) {
     dispatch(updateNode({ id: nodeId, data: { attributesProbabilities: updated } }));
   };
 
-  // --- Render ---
   return (
     <div className="mt-3 space-y-4">
       {/* Selección de distribución */}

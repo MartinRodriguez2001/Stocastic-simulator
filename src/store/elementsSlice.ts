@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-interface ElementAttributes { name: string; type: "categorico" | "numerico" | "booleano" }
-interface Element { id: string; name: string; attributes: ElementAttributes[] }
+export interface ElementAttributes { name: string; type: "categorico" | "numerico" | "booleano" }
+export interface Element { id: string; name: string; attributes: ElementAttributes[] }
 
 interface ElementsState { items: Record<string, Element> }
 const initialState: ElementsState = { items: {} }

@@ -4,7 +4,6 @@ import { useAppSelector } from "@/store/hooks";
 import { shallowEqual } from "react-redux";
 
 export function QueueNode(props: NodeProps) {
-  // Lee configuración desde Redux (nodeSlice) y datos del elemento (elementsSlice)
   const { name, strategy, capacityCfg, elementName } = useAppSelector((s) => {
     const ns = s.node.byId[props.id];
     const cfg = (ns?.config as any)?.data ?? {};
@@ -16,14 +15,10 @@ export function QueueNode(props: NodeProps) {
       elementName: el?.name as string | undefined,
     };
   }, shallowEqual);
-
-  // Compatibilidad: usa label de ReactFlow si existe; si no, usa name de config
   const label = (props.data as any)?.label ?? name ?? "Cola";
 
-  // UI data adicional desde props (si existiera runtime de tamaño)
   const { queueSize } = (props.data as any) as { queueSize?: number };
 
-  // Mostrar disciplina y capacidad desde Redux si está disponible, si no desde props
   const discipline = strategy ?? (props.data as any)?.discipline ?? "FIFO";
   const capacity =
     capacityCfg != null

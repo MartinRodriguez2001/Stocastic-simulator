@@ -12,12 +12,15 @@ import { createNode } from "@/store/thunks/createNode";
 import { deleteNode } from "@/store/thunks/deleteNode";
 import { type NodeKind } from "@/store/nodeSlice";
 import { createNodeVisual } from "@/nodes/registry";
+import { toast } from "sonner";
+import { validateConnectionPure } from "@/context/ValidationContext";
 
 export function useWorkSpace() {
   const dispatch = useAppDispatch();
   const nodes = useAppSelector((state) => state.workspace.nodes);
   const edges = useAppSelector((state) => state.workspace.edges);
   const selectedNode = useAppSelector((state) => state.workspace.selectedNode);
+  const nodeById = useAppSelector((state) => state.node.byId)
 
   // 🔹 ReactFlow callbacks
   const onNodesChange = useCallback(
@@ -34,12 +37,29 @@ export function useWorkSpace() {
     [dispatch]
   );
 
-  const onConnect = useCallback(
-    (params: Connection) => {
-      dispatch(onConnectAction(params));
-    },
-    [dispatch]
-  );
+  const onConnect = useCallback((params: Connection) => {
+  const { source, target } = params;
+  if (!source || !target) return;
+
+  const sourceNode = nodes.find((n) => n.id === source);
+  const targetNode = nodes.find((n) => n.id === target);
+  if (!sourceNode || !targetNode) return;
+
+  const result = validateConnectionPure({
+    source: sourceNode,
+    target: targetNode,
+    edges,
+    nodeById,
+    options: { strictElementMatch: true },
+  });
+
+  if (!result.isValid) {
+    toast.error(result.message ?? "Conexión no permitida");
+    return;
+  }
+
+  dispatch(onConnectAction(params));
+}, [nodes, edges, nodeById, dispatch]);
 
   const onNodeClick = useCallback((_: unknown, node: Node) => {
     dispatch(setSelectedNodeAction(node));

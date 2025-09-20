@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     workspace,
     elements,
-    node
+    node,
 
   },
 })

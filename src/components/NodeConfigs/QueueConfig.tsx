@@ -24,7 +24,7 @@ export function QueueConfig({ nodeId }: QueueConfigProps) {
   const dispatch = useAppDispatch();
   const config = useAppSelector((s) => s.node.byId[nodeId]?.config.data) as any;
   const elements = useAppSelector((s) => s.elements.items);
-  
+
   if (!config) return null;
 
   const element = config.elementTypeId ? elements[config.elementTypeId] : null;
@@ -124,7 +124,7 @@ export function QueueConfig({ nodeId }: QueueConfigProps) {
             onChange={(e) => {
               const raw = e.target.value;
               if (raw === "") {
-                setCapacity(undefined); // tratar vacío como infinito
+                setCapacity(undefined);
                 return;
               }
               const num = Number(raw);
